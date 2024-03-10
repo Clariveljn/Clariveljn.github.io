@@ -30,16 +30,20 @@ $(document).ready(function () {
       return;
     }
 
-    // Si se pasan las validaciones, continuar con la autenticación
-    const logged = email === "admin@gmail.com" && password === "admin321";
+    // Obtener la lista de usuarios del localStorage
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if (logged) {
+    // Buscar el usuario por correo electrónico
+    let currentUser = users.find(function (user) {
+      return user.email === email && user.password === password;
+    });
+
+    // Verificar si el usuario existe y si la contraseña es correcta
+    if (currentUser) {
       sessionStorage.setItem("auth", true);
       window.location.href = "menu.html";
     } else {
-      // alert("Usuario y/o contraseña incorrectos");
       $("#incorrectData").text("Usuario y/o contraseña incorrectos").show();
-      // Oculta el mensaje después de 2 segundos
       setTimeout(function () {
         $("#incorrectData").fadeOut();
       }, 1000);
