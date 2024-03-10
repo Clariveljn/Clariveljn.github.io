@@ -3,6 +3,23 @@ $(document).ready(function () {
   let saldo = parseFloat(localStorage.getItem("saldo")) || 0;
   $("#balanceDisplay").text("$" + saldo);
 
+  // Manejar eventos de teclado para el campo de monto de depósito
+  $("#depositAmount").on("keydown", function (event) {
+    // Permitir las teclas de navegación y borrar
+    if (
+      event.key == "ArrowLeft" ||
+      event.key == "ArrowRight" ||
+      event.key == "Backspace" ||
+      event.key == "Delete"
+    ) {
+      return;
+    }
+    // Permitir solo números
+    else if (event.key.length === 1 && /[0-9]/.test(event.key) === false) {
+      event.preventDefault();
+    }
+  });
+
   // evento de envío del formulario de depósito
   $("#makeDeposit").click(function (event) {
     event.preventDefault();
