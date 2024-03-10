@@ -100,10 +100,23 @@ $(document).ready(function () {
   // Evento en el botón "Enviar"
   $("#sendMoneyBtn").click(function () {
     // Obtener el monto ingresado
-    let amount = parseFloat($("#amount").val());
+    let amount = $("#amount").val().trim();
 
-    // Verificar si el monto es válido
-    if (isNaN(amount) || amount <= 0) {
+    // Verificar si el monto es válido (solo números)
+    if (!/^\d*\.?\d+$/.test(amount)) {
+      $("#invalidAmount").text("Por favor, ingrese un monto válido.").show();
+
+      setTimeout(function () {
+        $("#invalidAmount").hide();
+      }, 1000);
+      return;
+    }
+
+    // Convertir el monto a número
+    amount = parseFloat(amount);
+
+    // Verificar si el monto es menor o igual a cero
+    if (amount <= 0) {
       $("#invalidAmount").text("Por favor, ingrese un monto válido.").show();
 
       setTimeout(function () {
@@ -180,5 +193,22 @@ $(document).ready(function () {
         $(this).hide();
       }
     });
+  });
+
+  // Manejar eventos de teclado para el campo de monto
+  $("#amount").on("keydown", function (event) {
+    // Permitir las teclas de navegación y borrar
+    if (
+      event.key == "ArrowLeft" ||
+      event.key == "ArrowRight" ||
+      event.key == "Backspace" ||
+      event.key == "Delete"
+    ) {
+      return;
+    }
+    // Permitir solo números
+    else if (event.key.length === 1 && /[0-9]/.test(event.key) === false) {
+      event.preventDefault();
+    }
   });
 });
