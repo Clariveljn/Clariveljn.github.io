@@ -31,13 +31,9 @@ $(document).ready(function () {
 
   // Verificar si la lista de contactos está vacía
   if (contacts.length === 0) {
-    $("#contactHeader").hide();
+    $("#contactHeader").text("No ha agregado contactos");
   } else {
     $("#contactHeader").text("Contactos");
-    // Si hay contactos, agregarlos a la lista HTML
-    contacts.forEach(function (contact) {
-      agregarContactoHTML(contact);
-    });
   }
 
   // Manejar el envío del formulario para agregar contactos
@@ -45,18 +41,7 @@ $(document).ready(function () {
     event.preventDefault();
 
     let nombre = $("#contactName").val().trim();
-    let cbu = $("#contactCBU").val().trim(); // Aquí se define cbu dentro de la función submit
-
-    // Validar que el CBU tenga 12 dígitos
-    if (cbu.length !== 12) {
-      $("#incorrectData").text("El CBU debe tener 12 dígitos.").show();
-
-      setTimeout(function () {
-        $("#incorrectData").hide();
-      }, 1000);
-      return;
-    }
-
+    let cbu = $("#contactCBU").val().trim();
     let alias = $("#contactAlias").val().trim();
     let banco = $("#contactBank").val().trim();
 
